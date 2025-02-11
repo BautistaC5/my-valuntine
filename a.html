@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Valentine 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Estilos generales */
+        body {
+            background-color: #FFC0CB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif; /* Fuente moderna */
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Contenedor de la tarjeta con forma de corazón */
+        .card {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Corazón */
+        .heart {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: #ff69b4;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        /* Mitades del corazón */
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -60px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 60px;
+            top: 0;
+        }
+
+        /* Mensaje oculto */
+        .message {
+            position: absolute;
+            width: 280px;
+            background-color: white;
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.8s ease-in-out, opacity 0.5s ease-in-out;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            font-weight: 400;
+            opacity: 0;
+        }
+
+        /* Botón */
+        .button {
+            background-color: #ff69b4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .button:hover {
+            background-color: #ff1493;
+        }
+
+        /* Animaciones al abrir */
+        .open .heart {
+            transform: translate(-50%, -50%) rotate(-45deg) scale(0);
+            opacity: 0;
+        }
+
+        .open .message {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        /* Animación de corazones flotantes */
+        .heart-animation {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: float infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-100px) scale(1.2); opacity: 0.7; }
+            100% { transform: translateY(-200px) scale(0.8); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tarjeta con forma de corazón -->
+    <div class="card" onclick="openCard()">
+        <div class="heart"></div>
+        <div class="message">
+            <p>¿Querés ser mi cita de San Valentín? 💖</p>
+            <button class="button" onclick="acceptDate(event)">Quiero ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            document.querySelector('.card').classList.add('open');
+        }
+
+        function acceptDate(event) {
+            event.stopPropagation(); // Para evitar que se cierre al hacer clic
+            
+            // Animar la transición de forma más suave
+            setTimeout(() => {
+                const messageBox = document.querySelector('.message');
+                messageBox.innerHTML = "<p>Nos vemos en la cita 💕<br>¡Preparate para mancharte! 🎨</p>";
+            }, 800); // Retraso para que no desaparezca de golpe
+
+            // Crear corazones animados de forma continua
+            setInterval(() => {
+                let heart = document.createElement("div");
+                heart.classList.add("heart-animation");
+                heart.innerHTML = "❤️";
+                document.body.appendChild(heart);
+
+                // Posicionarlo en una parte aleatoria de la pantalla
+                let x = Math.random() * window.innerWidth;
+                let y = window.innerHeight;
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+
+                // Duración y velocidad aleatoria
+                heart.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+                // Remover corazones viejos para evitar sobrecarga
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300); // Generar un nuevo corazón cada 0.3 segundos
+        }
+    </script>
+
+</body>
+</html>
